@@ -1,0 +1,30 @@
+class Solution {
+    List<List<Integer>> l = new ArrayList<>();
+    public void twoSum (int [] nums,int target,int i,int j) {
+        while(i<j) {
+            if(nums[i] + nums[j] > target) j--;
+            else if(nums[i] + nums[j] < target) i++;
+            else {
+                while( i<j && nums[i] == nums[i+1] ) i++;
+                while(i<j && nums[j] == nums[j-1]) j--;
+                ArrayList <Integer> n1 = new ArrayList<Integer>();
+                n1.addAll(Arrays.asList(nums[i],nums[j],-1*target));
+                l.add(n1);
+                i++;
+                
+            }
+        }
+    }
+    public List<List<Integer>> threeSum(int[] nums) {
+        int n = nums.length;
+        Arrays.sort(nums);
+        
+        for(int i=0;i<n-2;i++) {
+            if (i>0 && nums[i] == nums[i-1]) continue;
+            int elm = -1 * nums[i];
+            twoSum(nums,elm,i+1,n-1);
+           
+        }
+        return l;
+    }
+}
