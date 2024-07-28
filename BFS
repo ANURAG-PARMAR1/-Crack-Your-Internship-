@@ -1,0 +1,22 @@
+public ArrayList<Integer> bfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+        int visited[] = new int[V];
+        Arrays.fill(visited,0);
+        Queue<Integer> q = new LinkedList<>();
+        q.offer(0);
+        visited[0] = 1;
+        
+        while(!q.isEmpty()) {
+            int el = q.poll();
+            ans.add(el);
+            for(int i:adj.get(el)) {
+                if(visited[i] == 0) {
+                    visited[i] = 1;
+                    q.offer(i);
+                    
+                }
+            }
+        }
+        
+        return ans;
+    }

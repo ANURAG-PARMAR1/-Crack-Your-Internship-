@@ -1,0 +1,18 @@
+class Solution {
+    ArrayList<Integer> ans = new ArrayList<>();
+    public void dfs (int node,ArrayList<ArrayList<Integer>> adj,int visited[]) {
+        visited[node] = 1;
+        ans.add(node);
+        for(int i:adj.get(node)) {
+            if(visited[i] == 0)
+                dfs(i,adj,visited);
+        }
+    }
+    public ArrayList<Integer> dfsOfGraph(int V, ArrayList<ArrayList<Integer>> adj) {
+        
+        int visited[] = new int[V];
+        //Arrays.fill(visited,0);
+        dfs(0,adj,visited);
+        
+        return ans;
+    }

@@ -1,0 +1,24 @@
+class Solution {
+
+    public void dfs (int[][] grid, int f, int s, int col,int boxCol) {
+        int n = grid.length;
+        int m = grid[0].length;
+        
+        if(f<0 || f>=n || s>=m || s<0) return;
+        
+        if(grid[f][s] == boxCol) {
+            grid[f][s] = col; 
+    
+             dfs(grid,f+1,s,col,boxCol);
+            dfs(grid,f,s+1,col,boxCol);
+            dfs(grid,f-1,s,col,boxCol);
+            dfs(grid,f,s-1,col,boxCol);
+        } 
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        if(image[sr][sc] == color) return image;
+
+        dfs(image,sr,sc,color,image[sr][sc]);
+        return image;
+    }
+}
