@@ -1,0 +1,31 @@
+class Solution {
+    // Function to detect cycle in a directed graph.
+    public boolean isCyclic(int V, ArrayList<ArrayList<Integer>> adj) {
+        int indegree [] = new int[V];
+        Arrays.fill(indegree,0);
+        
+        for(int i=0;i<V;i++) {
+            for(int elm:adj.get(i)) {
+                indegree[elm]++;
+            }
+        }
+        
+        Queue<Integer> q = new LinkedList<>();
+        for(int i=0;i<V;i++) {
+            if(indegree[i] == 0) q.offer(i);
+        }
+        ArrayList<Integer> l = new ArrayList<>();
+        while(!q.isEmpty()) {
+            for(int elm:adj.get(q.peek())) {
+                indegree[elm]--;
+                if(indegree[elm] == 0) q.offer(elm);
+            }
+            l.add(q.poll());
+            
+            
+            
+        }
+        
+        if(l.size() < V) return true;
+        return false;
+    }

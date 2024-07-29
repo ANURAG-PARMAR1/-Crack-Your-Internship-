@@ -1,0 +1,37 @@
+class Pair {
+    int f;
+    int s;
+    Pair(int a,int b) {
+        f=a;
+        s=b;
+    }
+}
+class Solution {
+    
+    
+    void dfs (Pair node,ArrayList<ArrayList<Integer>> adj,int []visited,boolean[]ans) {
+        
+        visited[node.f] = 1;
+        int par = node.s;
+        for(int elm:adj.get(node.f)) {
+            if(visited[elm] == 0) {
+                dfs(new Pair(elm,node.f),adj,visited,ans);
+            }
+            else if(visited[elm] == 1 && elm!=par ) ans[0] = true;
+        }
+        
+        
+    }
+    public boolean isCycle(int V, ArrayList<ArrayList<Integer>> adj) {
+        int visited[] = new int[V];
+        Arrays.fill(visited,0);
+        boolean []ans = {false};
+        for(int i=0;i<V;i++) {
+            if(visited[i] == 0) {
+                
+              dfs(new Pair(i,-1),adj,visited,ans);
+            }
+        }
+        return ans[0];
+    }
+}

@@ -1,0 +1,61 @@
+ class Pair {
+        int f;
+        int s;
+        int count;
+        Pair(int a,int b,int c) {
+            f=a;
+            s=b;
+            count = c;
+        }
+    }
+class Solution
+{
+   
+    boolean valid (int r, int c,int n) {
+        if(r < 0 || r>=n || c<0 || c>=n) return false;
+        return true;
+    }
+   
+   
+    int bfs (Pair p,int des[],int N,int vis[][]) {
+       int allMove[][] = {{-2,-1},{1,2},{2,1},{2,-1},{1,-2},{-1,-2},{-2,1},{-1,2}};
+       Queue<Pair> q = new LinkedList<>();
+       
+       int ans = Integer.MAX_VALUE;
+       int dR = des[0]-1;
+       int dC = des[1]-1;
+        q.offer(p);
+        vis[p.f][p.s] = 1;
+        while(!q.isEmpty()) {
+            
+            int r = q.peek().f;
+            int c = q.peek().s;
+            int co = q.peek().count;
+            q.poll();
+            if(dR ==r && dC == c ) ans = Math.min(ans,co);
+            for(int i=0;i<8;i++) {
+                int x = r + allMove[i][0];
+                int y = c + allMove[i][1];
+                
+                if(valid(x,y,N) && vis[x][y] == 0) {
+                    q.offer(new Pair(x,y,co+1));
+                    vis[x][y] = 1;
+                    
+                }
+            }
+        }
+        return ans == Integer.MAX_VALUE?-1:ans;
+       
+    }
+    //Function to find out minimum steps Knight needs to reach target position.
+    public int minStepToReachTarget(int KnightPos[], int TargetPos[], int N)
+    {   int visited[][] = new int[N][N];
+        for(int i=0;i<N;i++) {
+            Arrays.fill(visited[i],0);
+        }
+        int r = KnightPos[0];
+        int c = KnightPos[1];
+       return bfs(new Pair(r-1,c-1,0),TargetPos,N,visited);
+        
+    }
+}

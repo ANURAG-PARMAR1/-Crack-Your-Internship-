@@ -1,0 +1,21 @@
+class Solution {
+    int dp[][];
+    int solve(int [][] arr,int i,int j) {
+        if(i==0 && j==0) return arr[i][j];
+        if(i< 0 || j<0) return 0;
+        if(dp[i][j] != -1) return dp[i][j];
+        int l=Integer.MAX_VALUE,u=Integer.MAX_VALUE;
+        if(i> 0) l = arr[i][j] + solve(arr,i-1,j);
+        if(j > 0)u = arr[i][j] + solve(arr,i,j-1);
+        return dp[i][j] = Math.min(l,u);
+
+
+    }
+    public int minPathSum(int[][] grid) {
+        dp = new int[grid.length][grid[0].length];
+        for(int []arr:dp) {
+            Arrays.fill(arr,-1);
+        }
+       return solve(grid,grid.length-1,grid[0].length-1);
+    }
+}

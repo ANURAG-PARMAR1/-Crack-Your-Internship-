@@ -1,0 +1,26 @@
+class Solution {
+    int dp[][][];
+    int solve (String[] strs, int m, int n,int i) {
+        if(i >= strs.length || m==0 && n ==0) return 0;
+        if(dp[m][n][i] > 0) return dp[m][n][i];
+        int count[] = counting(strs[i]); 
+
+        int take = 0;
+        if(m >= count[0] && n >= count[1]) take = 1 + solve(strs,m-count[0],n-count[1],i+1);
+        int notTake = solve(strs,m,n,i+1);
+        return dp[m][n][i] = Math.max(take,notTake);
+    }   
+
+
+    int [] counting (String s) {
+        int count[] = new int[2];
+        for(char c:s.toCharArray()) {
+            count[c-'0']++;
+        }
+        return count;
+    } 
+    public int findMaxForm(String[] strs, int m, int n) {
+        dp = new int[m+1][n+1][strs.length];
+        return solve(strs,m,n,0);
+    }
+}
