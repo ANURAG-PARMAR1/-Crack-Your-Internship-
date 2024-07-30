@@ -1,0 +1,46 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> num = new Stack<>();
+        Stack<String> st = new Stack<>();
+
+        for(int i=0;i<s.length();i++) {
+            if(Character.isDigit(s.charAt(i))) {
+                int number = 0;
+                while(s.charAt(i)!='[') {
+                    number = number*10 +(s.charAt(i) - '0');
+                    i++;
+                }
+                num.push(number);
+                i--;
+            }
+            else if(s.charAt(i) == ']') {
+                String temp = "";
+                while(!st.peek().equals("[")) {
+                    temp = st.pop() + temp;
+                }
+                st.pop();
+                int no = num.pop();
+                String dummy = temp;
+                while(no > 1) {
+                    temp+=dummy;
+                    no--;
+                }
+                st.push(temp);
+
+                
+                    System.out.println(st.peek());
+            
+            }
+            else {
+                st.push(s.charAt(i) + "");
+            }
+        }
+        String ans = "";
+        while(!st.isEmpty()) {
+            ans = st.pop() + ans;
+        }
+        return ans;
+
+
+    }
+}

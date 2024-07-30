@@ -1,0 +1,45 @@
+class Solution {
+
+    int dir [][] = {{1,0},{-1,0},{0,1},{0,-1}};
+    int dp[][];
+    int n,m,count=1;
+    boolean isSafe (int i,int j) {
+        return i>=0 && i<n && j>=0 && j<m;
+    }
+
+    int solve( int[][] matrix,int i,int j) {
+        int max = 1;
+        if(dp[i][j] != -1) return dp[i][j];
+       for(int z=0;z<4;z++) {
+           
+            int prev = matrix[i][j];
+            int i_ = i+dir[z][0];
+            int j_ = j+dir[z][1];
+            int temp = 1;
+            if(isSafe(i_,j_) && prev < matrix[i_][j_]) {
+                temp = 1 + solve(matrix,i_,j_);
+            }
+            max = Math.max(max,temp);
+            
+       }
+       return dp[i][j] = max;
+    }
+
+    public int longestIncreasingPath(int[][] matrix) {
+        n = matrix.length;
+        m = matrix[0].length;
+        dp = new int[n][m];
+
+        for(int arr[]:dp) {
+            Arrays.fill(arr,-1);
+        } 
+
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                count = Math.max(count,solve(matrix,i,j));
+                System.out.println(count);
+            }
+        }
+        return count;
+    }
+}

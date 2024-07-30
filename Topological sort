@@ -1,0 +1,31 @@
+class Solution
+{
+    //Function to return list containing vertices in Topological order. 
+    static Stack<Integer> st = new Stack<>();
+    static void dfs (ArrayList<ArrayList<Integer>> adj,int [] visited,int node) {
+        visited[node] = 1;
+        
+        for(int x:adj.get(node)) {
+            if(visited[x] == 0) {
+                visited[node] = 1;
+                dfs(adj,visited,x);
+            }
+        }
+        st.push(node);
+    }
+    static int[] topoSort(int V, ArrayList<ArrayList<Integer>> adj) 
+    {   int visited[] = new int[V];
+        Arrays.fill(visited,0);
+       for(int i=0;i<V;i++) {
+           if(visited[i] == 0) {
+               dfs(adj,visited,i);
+           }
+       }
+       int [] ans = new int[V];
+       int i=0;
+       while(!st.isEmpty()) {
+           ans[i++] = st.pop();
+       }
+       return ans;
+    }
+}

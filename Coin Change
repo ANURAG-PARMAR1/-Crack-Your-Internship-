@@ -1,0 +1,27 @@
+class Solution {
+    int dp[][];
+
+    int solve(int[] coins, int target,int n ) {
+        if(target == 0) return 0;
+        if(n < 0) return (int) 1e8;
+        if(target < 0)  return (int) 1e8;
+
+        if(dp[n][target] != -1) return dp[n][target];
+        int take = (int)1e8;
+        if(coins[n] <= target) take = 1 + solve(coins,target - coins[n],n);
+        int noTake = solve(coins,target,n-1);
+        return dp[n][target] = Math.min(take,noTake); 
+    }
+    public int coinChange(int[] coins, int amount) {
+        Arrays.sort(coins);
+       // if(coins[0] )
+        dp = new int [coins.length+1][amount+1];
+        for(int arr[]:dp) {
+            Arrays.fill(arr,-1);
+        }
+
+        int ans = solve(coins,amount,coins.length-1);
+        if(ans >= (int)1e8) return -1;
+        return ans;
+    }
+}

@@ -1,0 +1,88 @@
+// Mark the 1st Whole Island using DFS
+// Put the Elm of 1st island in queue;
+// Run a BFS on queue on each level to find the shortest path to 2nd island
+
+class Pair {
+    int first;
+    int second;
+
+    Pair (int f,int s) {
+        first = f;
+        second = s;
+    }
+}
+
+class Solution {
+    int dir[][] = {{1,0},{-1,0}, {0,1},{0,-1}};
+    int n,m,ans=0;
+
+    boolean isSafe(int i,int j) {
+        return i>=0 && i<n && j>=0 && j<m ;
+    }
+
+    void dfs (int[][] grid, int visited[][], Queue <Pair> q,int i,int j) {
+        visited[i][j] = 1;
+        q.add(new Pair(i,j));
+
+        for(int z=0;z<dir.length;z++) {
+            int x = i+dir[z][0];
+            int y = j+dir[z][1];
+
+            if(isSafe(x,y) && grid[x][y] == 1 && visited[x][y] == 0) {
+                dfs(grid,visited,q,x,y);
+            }
+            
+        }
+    }
+
+    int bfs (Queue <Pair> q,int visited[][],int grid[][]) {
+            while(!q.isEmpty()) {
+                int sz = q.size();
+                for(int x=0;x<sz;x++) {
+                    int row = q.peek().first;
+                    int col = q.peek().second;
+                    q.poll();
+
+                    for(int z=0;z<dir.length;z++) {
+                        int row_ = row+dir[z][0];
+                        int col_ = col + dir[z][1];
+
+                        if(isSafe(row_,col_) && visited[row_][col_] == 0 && grid[row_][col_] == 1) {
+                            return ans;
+                        }
+
+                        if(isSafe(row_,col_) && visited[row_][col_] == 0) {
+                            q.offer(new Pair(row_,col_));
+                            visited[row_][col_] = 1;
+                        }
+                    }
+                }
+                ans++;
+            }
+            return ans;
+
+    }
+
+
+    public int shortestBridge(int[][] grid) {
+        Queue <Pair> q = new LinkedList<>();
+         n = grid.length;
+         m = grid[0].length;
+        int visited[][] = new int[n][m];
+        for(int i=0;i<n;i++) {
+            Arrays.fill(visited[i],0);
+        }
+
+        for(int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                if(visited[i][j] == 0 && grid[i][j] == 1) {
+                    System.out.println("Enter");
+                    dfs(grid,visited,q,i,j);
+                    return bfs(q,visited,grid);
+                }   
+            }
+        }
+        return ans;
+
+    }
+}
