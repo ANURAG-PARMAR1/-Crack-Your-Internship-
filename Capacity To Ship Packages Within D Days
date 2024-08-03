@@ -1,0 +1,41 @@
+class Solution {
+
+    public boolean isValid (int [] weights,int days,int num) {
+        int presentDay = 1,load=0;
+        for(int i=0;i<weights.length;i++) {
+            if(load+weights[i] > num) {
+                presentDay++;
+                load=0;
+            }
+            load+=weights[i];
+        }
+        if(presentDay > days) return false;
+        return true;
+    } 
+    public int shipWithinDays(int[] weights, int days) {
+        int max = -1,sum=0;
+        for(int num:weights) {
+            max = Integer.max(max,num);
+            sum+=num;
+        }
+        int i=max,j=sum,ans=-1;
+
+        while(i<=j) {
+            int mid = (i+j)/2;
+            if(isValid(weights,days,mid)) {
+                ans=mid;
+                j=mid-1;
+            }
+            else i =mid+1;
+        }
+
+
+
+        // for(int i=max;i<=sum;i++) {
+        //     int ans = isValid(weights,days,i);
+        //     if(ans != -1) return ans; 
+        // }
+        return ans;
+    }
+  
+}

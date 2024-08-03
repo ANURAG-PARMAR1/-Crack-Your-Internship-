@@ -1,0 +1,41 @@
+class Solution {
+    HashMap<Integer, Integer> mp = new HashMap<>();
+    int t[][] = new int[2001][2001];
+    int n;
+    boolean solve(int[] stones, int currIndex, int prevJump) {
+        if(currIndex == n-1)
+            return true;
+        
+        boolean result = false;
+        
+        if(t[currIndex][prevJump] != -1)
+            return t[currIndex][prevJump] == 1;
+        
+        for(int i = prevJump-1; i <= prevJump+1; i++) {
+            
+            if(i > 0) {
+                int nextStone = stones[currIndex] + i;
+                
+                if(mp.containsKey(nextStone)) {
+                    result = result || solve(stones, mp.get(nextStone), i);
+                }
+            }
+            
+        }
+        
+        t[currIndex][prevJump] = (result ? 1 :0);
+        return result;
+    }
+    public boolean canCross(int[] stones) {
+        n = stones.length;        
+        for (int i = 0 ; i < stones.length; i++) {
+            mp.put(stones[i], i);
+        }
+         
+        for (int i = 0; i <= 2000; i++) {
+            Arrays.fill(t[i], -1);
+        }
+        
+        return solve(stones, 0, 0);
+    }
+}

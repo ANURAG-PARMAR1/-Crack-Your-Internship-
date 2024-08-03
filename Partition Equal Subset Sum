@@ -1,0 +1,33 @@
+class Solution{
+    
+    static boolean isSubset(int n,int arr[],int target,int[] []dp) {
+        if(target == 0) return true;
+        if(n<0) return false;
+        
+        if(dp[n][target] != -1) return dp[n][target] == 1;
+        
+        if(arr[n]<=target) {
+             dp[n][target] =  (isSubset(n-1,arr,target - arr[n],dp) ||  isSubset(n-1,arr,target,dp)) 
+                                                    == true?1:0;
+             return (isSubset(n-1,arr,target - arr[n],dp) ||  isSubset(n-1,arr,target,dp));
+        }
+        else {
+             dp[n][target] = isSubset(n-1,arr,target,dp) == true?1:0;
+             return isSubset(n-1,arr,target,dp);
+        }
+    }   
+    static int equalPartition(int N, int arr[])
+    {
+        
+        int sum = 0;
+        for(int num:arr) {
+            sum+=num;
+        }
+        if(sum % 2 != 0) return 0;
+        
+        int dp[][] = new int[N][sum+1];
+        for(int brr[]:dp) {
+            Arrays.fill(brr,-1);
+        }
+        if( isSubset(N-1,arr,sum/2,dp)) return 1;
+        else return 0;
