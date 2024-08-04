@@ -1,0 +1,40 @@
+class Solution {
+    int numPad [][] = {{1,2,3},{4,5,6},{7,8,9},{-1,0,-1}};
+    int pattern[][] = {{2,-1},{2,1},{-2,1},{-2,-1},{1,2},{-1,2},{1,-2},{-1,-2}};
+    int [][][]dp;
+    boolean isValid (int x,int y) {
+        return x>=0 && y>=0 && x<4 && y<3 && numPad[x][y] != -1; 
+    }
+    int solve(int n,int x,int y) {
+        if(!isValid(x,y)) return 0;
+        if(n == 0) return 1;
+       
+       if(dp[n][x][y] != -1) return dp[n][x][y];
+       int ans = 0;
+       for(int i=0;i<8;i++) {
+       ans = (ans +(solve(n-1,x+pattern[i][0],y+pattern[i][1])%(int)(1e9+7)))%(int)(1e9+7) ;
+       }
+       return dp[n][x][y] = ans;
+    }
+    public int knightDialer(int n) {
+        int ans = 0;
+        dp = new int[5001][4][3];
+        for(int arr[][]:dp) {
+            for(int ar[]:arr) {
+                Arrays.fill(ar,-1);
+            }
+        }
+        for(int i=0;i<4;i++) {
+             for(int j=0;j<3;j++) {
+                if(numPad[i][j] != -1) {
+                      ans = (ans + solve(n-1,i,j)%(int)(1e9+7))%(int)(1e9+7);
+                      System.out.println(ans);
+
+                }
+                  
+             }
+        }
+        return ans;
+        
+    }
+}

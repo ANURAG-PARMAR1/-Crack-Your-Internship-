@@ -1,0 +1,22 @@
+class Solution {
+    int dp[] = new int[101];
+    int solve (int curr,String s,int n) {
+        if(dp[curr] !=-1) return dp[curr];
+        if(curr == n) return 1;
+        if(s.charAt(curr) == '0') return 0;
+
+        int result = solve(curr+1,s,n);
+        if(curr+1<n) {
+            if(s.charAt(curr) == '1' || s.charAt(curr) == '2' && s.charAt(curr+1)<'7') {
+                result += solve(curr+2,s,n);
+            }
+        }
+        return dp[curr] = result;
+    }
+
+    public int numDecodings(String s) {
+        int n = s.length();
+        Arrays.fill(dp,-1);
+        return solve(0,s,n);
+    }
+}
