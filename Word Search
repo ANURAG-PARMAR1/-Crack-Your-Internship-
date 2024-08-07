@@ -1,0 +1,46 @@
+class Solution {
+    
+    int dir [][] = {{1,0},{-1,0},{0,1},{0,-1}};
+    int n,m;
+    int visited [][];
+
+    boolean isValid(int x,int y) {
+        return x>=0 && y>=0 && x<n && y<m;
+    }
+
+    boolean solve (char[][] board, String word,int n,int x,int y,int i) {
+        
+        if(i == n) return true;
+        if(!isValid(x,y)) return false;
+        if(visited[x][y] == 1) return false;
+        if(board[x][y] != word.charAt(i)) return false;
+
+        
+        boolean ans = false;
+        visited[x][y] = 1;
+        for(int j=0;j<4;j++) { 
+            ans = ans ||  solve(board,word,n,x+dir[j][0],y+dir[j][1],i+1); 
+        }
+        visited[x][y] = 0;
+        return ans;
+
+
+
+    }
+    public boolean exist(char[][] board, String word) {
+        n = board.length;
+        m = board[0].length;
+        visited = new int[n][m];
+       
+        for(int arr[]:visited) {
+            Arrays.fill(arr,0);
+        }
+        boolean ans = false;
+        for (int i=0;i<n;i++) {
+            for(int j=0;j<m;j++) {
+                ans = ans || solve (board,word,word.length(),i,j,0);
+            }
+        }
+        return ans;
+    }
+}
