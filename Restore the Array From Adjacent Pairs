@@ -1,0 +1,28 @@
+class Solution {
+    void dfs (HashMap<Integer,ArrayList<Integer>> adj,int result[],int i,int node,int prev) {
+        result[i] = node;
+        for(int elm:adj.get(node)) {
+            if(prev != elm) {
+                dfs(adj,result,i+1,elm,node);
+            }
+        }
+    }
+    public int[] restoreArray(int[][] adjacentPairs) {
+        HashMap<Integer,ArrayList<Integer>> adj = new HashMap<>();
+        for(int arr[]:adjacentPairs) {
+            int u = arr[0];
+            int v = arr[1];
+            adj.computeIfAbsent(u, k -> new ArrayList<>()).add(v);
+            adj.computeIfAbsent(v,k -> new ArrayList<>()).add(u);
+        }
+        int root = -1;
+        for(int k:adj.keySet()) {
+             if(adj.get(k).size() == 1) root = k;
+            System.out.println(k + "-> "+adj.get(k));
+        }
+
+        int result [] = new int[adj.size()];
+        dfs(adj,result,0,root,-1);
+        return result;
+    }
+}
