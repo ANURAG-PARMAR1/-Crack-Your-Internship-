@@ -1,0 +1,45 @@
+//Function to evaluate a postfix expression.
+    public static int evaluatePostFix(String S)
+    {   
+        int n = S.length();
+        int ans=0;
+        Stack<Integer> st = new Stack<>();
+        for(int i=0;i<n;i++) {
+            if(S.charAt(i)!= '*' && S.charAt(i)!= '/' && S.charAt(i)!= '+'&& S.charAt(i)!= '-') {
+                st.push(S.charAt(i) - '0');
+                
+            }
+            else if(S.charAt(i) == '*') {
+                int dushra = st.pop() ;
+                int pehla = st.pop();
+                ans = dushra * pehla;
+             //  System.out.print("Himsndhu Randi");
+                st.push(ans);
+                
+            }
+            else if(S.charAt(i) == '+') {
+                int dushra = st.pop();
+                int pehla = st.pop();
+                ans = dushra + pehla;
+                st.push(ans);
+               // System.out.print("Himsndhu Randi");
+            }else if(S.charAt(i) == '-') {
+                int dushra = st.pop();
+                int pehla = st.pop() ;
+                ans = pehla - dushra;
+                //System.out.print("Himsndhu Randi");
+                st.push(ans);
+            }else if(S.charAt(i) == '/') {
+                int dushra = st.pop();
+                int pehla = st.pop();
+                ans =pehla / dushra;
+              //  System.out.print("Himsndhu Randi");
+                st.push(ans);
+            }
+            // System.out.println(st.peek());
+            
+        }
+        return st.pop();
+        
+    }
+}
